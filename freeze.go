@@ -29,10 +29,8 @@ type CurrentWeatherData struct {
 }
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatalln("Error loading .env file")
-	}
+	// we dont care if it fails, only used for dev
+	godotenv.Load()
 
 	apiKey := os.Getenv("OPEN_WEATHER_API_KEY")
 	baseUrl := os.Getenv("OPEN_WEATHER_BASE_URL")
