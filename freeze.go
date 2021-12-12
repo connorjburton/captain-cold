@@ -10,6 +10,7 @@ import (
 	"net/url"
 	"os"
 
+	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/joho/godotenv"
 )
 
@@ -29,6 +30,10 @@ type CurrentWeatherData struct {
 }
 
 func main() {
+	lambda.Start(HandleRequest)
+}
+
+func HandleRequest() {
 	// we dont care if it fails, only used for dev
 	godotenv.Load()
 
