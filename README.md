@@ -10,7 +10,7 @@ Many aspects of this project are for learning.
 A concise, statically typed language. If it compiles, it works?
 
 ## [Discord Webhook](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks)
-As this script does not require any particularly complex Discord functionality we use a simply webhook to post to our specified Discord channel.
+As this script does not require any particularly complex Discord functionality we use a simple webhook to post to our specified Discord channel.
 
 ## Weather API ([Open-Meteo](https://open-meteo.com/en))
 A fantastic, free, open source, no sign-up weather API with high temporal resolution, allowing us to look up temperatures over the next day.
@@ -25,7 +25,7 @@ Triggered on push to master, this will build our image, push to ECR and point La
 Push our image to ECR to be used within Lamda.
 
 ## [Lamda](https://aws.amazon.com/lambda/)
-As we only want to run this script once a day there is no need to have a VM running every day. Instead we use Lamda to point to our image in ECR so we only run the script when we need to.
+As we only want to run this script once a day there is no need to have a VM running constantly. Instead we use Lamda to point to our image in ECR so we only run the script when we need to.
 
 ## [CloudWatch](https://aws.amazon.com/cloudwatch/)
 Used as our task scheduler to trigger Lamda once a day and provides us log output of each run.
