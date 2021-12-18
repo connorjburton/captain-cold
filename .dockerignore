@@ -1,0 +1,7 @@
+.github
+.env
+Dockerfile
+.dockerignore
+LICENSE
+.git
+.gitignore

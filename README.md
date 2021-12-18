@@ -19,7 +19,9 @@ A fantastic, free, open source, no sign-up weather API with high temporal resolu
 Utilising docker multistage builds to build our Go application but base the final image on [alpine](https://hub.docker.com/_/alpine/) to greatly reduce the size.
 
 ## [GitHub Actions](https://github.com/features/actions)
-Triggered on push to master, this will build our image, push to ECR and point Lamda at our new image. 
+Triggered on push to master, this will build our image, push to ECR and point Lamda at our new image.
+
+We could stop here and use GitHub Actions to run our script, as it's a once a day script, we could simply run `go run .` instead of building an image and running Lamda. However, the taken approach gives a better idea on how to deploy serverless applications correctly.
 
 ## [ECR](https://aws.amazon.com/ecr/)
 Push our image to ECR to be used within Lamda.
