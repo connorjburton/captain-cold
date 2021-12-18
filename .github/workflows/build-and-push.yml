@@ -23,7 +23,7 @@ jobs:
           --query '{FunctionName:FunctionName,FunctionArn:FunctionArn,LastModified:LastModified,CodeSha256:CodeSha256,RevisionId:RevisionId,State:State,PackageType:PackageType}'
 
         # Create variable of images to be deleted, any that aren't the current image
-        imagesToDelete=aws ecr list-images --repository-name ${AWS_ECR_REPO} --query 'imageIds[?imageTag!=`${{ github.sha }}`]'
+        imagesToDelete=$(aws ecr list-images --repository-name ${AWS_ECR_REPO} --query 'imageIds[?imageTag!=`${{ github.sha }}`]')
 
         aws ecr batch-delete-images --repository-name ${AWS_ECR_REPO} --cli-input-json ${imagesToDelete}
       env:
