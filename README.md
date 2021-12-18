@@ -21,7 +21,7 @@ Utilising docker multistage builds to build our Go application but base the fina
 ## [GitHub Actions](https://github.com/features/actions)
 Triggered on push to master, this will build our image, push to ECR and point Lamda at our new image.
 
-We could stop here and use GitHub Actions to run our script, as it's a once a day script, we could simply run `go run .` instead of building an image and running Lamda. However, the taken approach gives a better idea on how to deploy serverless applications correctly.
+We could stop here and use GitHub Actions to run our script, as it's a once a day script, we could simply run `go run .` instead of building an image and running Lamda. However, the taken approach gives a better idea on how to deploy serverless applications in the real world.
 
 ## [ECR](https://aws.amazon.com/ecr/)
 Push our image to ECR to be used within Lamda.
