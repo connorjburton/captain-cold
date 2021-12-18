@@ -19,15 +19,7 @@ jobs:
         aws lambda update-function-code \
           --function-name ${AWS_FUNCTION_NAME} \
           --image-uri ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${AWS_ECR_NAME}:${{ github.sha }} \
-          --query '{ \
-            FunctionName: FunctionName, \
-            FunctionArn: FunctionArn, \
-            LastModified: LastModified, \
-            CodeSha256: CodeSha256, \
-            RevisionId: RevisionId, \
-            State: State, \
-            PackageType: PackageType \
-          }'
+          --query '{FunctionName:FunctionName,FunctionArn:FunctionArn,LastModified:LastModified,CodeSha256:CodeSha256,RevisionId:RevisionId,State:State,PackageType:PackageType}'
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
