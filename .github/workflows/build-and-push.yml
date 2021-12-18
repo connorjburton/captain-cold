@@ -16,14 +16,21 @@ jobs:
         docker tag ${{ github.sha }} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${AWS_ECR_NAME}:${{ github.sha }}
         docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${AWS_ECR_NAME}:${{ github.sha }}
         
+        # Use --query to avoid logging out secrets stored in lambda envs
         aws lambda update-function-code \
           --function-name ${AWS_FUNCTION_NAME} \
           --image-uri ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${AWS_ECR_NAME}:${{ github.sha }} \
           --query '{FunctionName:FunctionName,FunctionArn:FunctionArn,LastModified:LastModified,CodeSha256:CodeSha256,RevisionId:RevisionId,State:State,PackageType:PackageType}'
+
+        # Create variable of images to be deleted, any that aren't the current image
+        imagesToDelete=aws ecr list-images --repository-name ${AWS_ECR_REPO} --query 'imageIds[?imageTag!=`${{ github.sha }}`]'
+
+        aws ecr batch-delete-images --repository-name ${AWS_ECR_REPO} --cli-input-json ${imagesToDelete}
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
         AWS_DEFAULT_REGION: eu-west-2
+        AWS_ECR_REPO: captain-cold
         AWS_ECR_NAME: captain-cold
         AWS_FUNCTION_NAME: captain-cold
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
