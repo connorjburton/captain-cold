@@ -124,7 +124,7 @@ func isLowerThanMin(temps *[NUM_HOURS]float64) bool {
 
 func sendMessage(webhook string) {
 	requestBody, err := json.Marshal(map[string]string{
-		"content": fmt.Sprintf("It's freezing tonight! It will drop lower than %d before 8am tomorrow.", MIN_TEMP),
+		"content": fmt.Sprintf("It's freezing tonight! It will drop lower than %dc before 8am tomorrow.", MIN_TEMP),
 	})
 
 	if err != nil {
