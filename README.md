@@ -26,6 +26,8 @@ We could stop here and use GitHub Actions to run our script, as it's a once a da
 ## [ECR](https://aws.amazon.com/ecr/)
 Push our image to ECR to be used within Lamda.
 
+We have a lifecycle policy to remove all old images to keep storage costs down.
+
 ## [Lamda](https://aws.amazon.com/lambda/)
 As we only want to run this script once a day there is no need to have a VM running constantly. Instead we use Lamda to point to our image in ECR so we only run the script when we need to.
 
