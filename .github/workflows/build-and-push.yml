@@ -11,11 +11,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - run: |
-        docker build -t ${{ github.sha }} .
+        DOCKER_BUILDKIT=1 docker build -t ${{ github.sha }} .
         aws ecr get-login-password | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com
         docker tag ${{ github.sha }} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${AWS_ECR_NAME}:${{ github.sha }}
         docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${AWS_ECR_NAME}:${{ github.sha }}
-        aws lamda update-function-code --function-name ${AWS_FUNCTION_NAME} --image-uri ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${AWS_ECR_NAME}:${{ github.sha }}
+        aws lambda update-function-code --function-name ${AWS_FUNCTION_NAME} --image-uri ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${AWS_ECR_NAME}:${{ github.sha }}
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
