@@ -21,20 +21,20 @@ Utilising docker multistage builds to build our Go application but base the fina
 We do not use AWS provided Lambda images, as they are (as of writing) not up to date with the latest Go version. We instead install RIE manually on the last stage.
 
 ## [GitHub Actions](https://github.com/features/actions)
-Triggered on push to master, this will build our image, push to ECR and point Lamda at our new image.
+Triggered on push to master, this will build our image, push to ECR and point Lambda at our new image.
 
-We could stop here and use GitHub Actions to run our script, as it's a once a day script, we could simply run `go run .` instead of building an image and running on Lamda. However, the taken approach gives a better idea on how to deploy serverless applications in the real world.
+We could stop here and use GitHub Actions to run our script, as it's a once a day script, we could simply run `go run .` instead of building an image and running on Lambda. However, the taken approach gives a better idea on how to deploy serverless applications in the real world.
 
 ## [ECR](https://aws.amazon.com/ecr/)
-Push our image to ECR to be used within Lamda.
+Push our image to ECR to be used within Lambda.
 
 We have a lifecycle policy to remove all old images to keep storage costs low.
 
 ## [Lambda](https://aws.amazon.com/lambda/)
-As we only want to run this script once a day there is no need to have a VM running constantly. Instead we use Lamda to point to our image in ECR so we only run the script when we need to.
+As we only want to run this script once a day there is no need to have a VM running constantly. Instead we use Lambda to point to our image in ECR so we only run the script when we need to.
 
 ## [CloudWatch](https://aws.amazon.com/cloudwatch/)
-Used as our task scheduler to trigger Lamda once a day.
+Used as our task scheduler to trigger Lambda once a day.
 
 Cloudwatch also captures log output of each run.
 
