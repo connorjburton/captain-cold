@@ -23,7 +23,7 @@ We do not use AWS provided Lambda images, as they are (as of writing) not up to 
 ## [GitHub Actions](https://github.com/features/actions)
 Triggered on push to master, this will build our image, push to ECR and point Lamda at our new image.
 
-We could stop here and use GitHub Actions to run our script, as it's a once a day script, we could simply run `go run .` instead of building an image and running Lamda. However, the taken approach gives a better idea on how to deploy serverless applications in the real world.
+We could stop here and use GitHub Actions to run our script, as it's a once a day script, we could simply run `go run .` instead of building an image and running on Lamda. However, the taken approach gives a better idea on how to deploy serverless applications in the real world.
 
 ## [ECR](https://aws.amazon.com/ecr/)
 Push our image to ECR to be used within Lamda.
