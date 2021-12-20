@@ -1,5 +1,6 @@
 .github
 .env
+.env.example
 Dockerfile
 .dockerignore
 LICENSE
