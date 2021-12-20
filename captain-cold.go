@@ -14,6 +14,9 @@ import (
 	"github.com/joho/godotenv"
 )
 
+const MIN_TEMP = 1
+const NUM_HOURS = 11
+
 type Hourly struct {
 	// we only want the first 32 results (8am the next day)
 	Temperature [32]float64 `json:"temperature_2m"`
@@ -23,8 +26,7 @@ type WeatherData struct {
 	Hourly `json:"hourly"`
 }
 
-const MIN_TEMP = 1
-const NUM_HOURS = 11
+type Temperatures *[NUM_HOURS]float64
 
 func main() {
 	lambda.Start(HandleRequest)
@@ -67,7 +69,7 @@ func HandleRequest() {
 	sendMessage(webhook)
 }
 
-func getTemps(baseUrl string, lat string, lng string) *[NUM_HOURS]float64 {
+func getTemps(baseUrl string, lat string, lng string) Temperatures {
 	v := url.Values{}
 	v.Set("latitude", lat)
 	v.Set("longitude", lng)
@@ -104,7 +106,7 @@ func getTemps(baseUrl string, lat string, lng string) *[NUM_HOURS]float64 {
 	// get the 15 times we care about 9pm - 8am
 	tempSlice := data.Hourly.Temperature[21:32]
 
-	// convert the slice to fixed array pointer so we aren't returning a slice and is more memory efficent as pointer
+	// convert the slice to fixed array so we aren't returning a unknown sized slice
 	temps := (*[11]float64)(tempSlice)
 
 	log.Print("Temperatures returned from the API are", temps)
@@ -112,7 +114,7 @@ func getTemps(baseUrl string, lat string, lng string) *[NUM_HOURS]float64 {
 	return temps
 }
 
-func isLowerThanMin(temps *[NUM_HOURS]float64) bool {
+func isLowerThanMin(temps Temperatures) bool {
 	for i := 0; i < NUM_HOURS; i++ {
 		if temps[i] <= MIN_TEMP {
 			return true
